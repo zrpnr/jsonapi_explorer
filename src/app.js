@@ -7,7 +7,7 @@ import { request } from './lib/request';
 const url = process.env.TOP_LEVEL;
 
 const App = () => {
-  const [query, setQuery] = useState([]);
+  const [baseUrl, setBaseUrl] = useState(url);
   const [result, setResult] = useState([]);
   const [links, setLinks] = useState([]);
   const [resourceLinks, setResourceLinks] = useState([]);
@@ -16,24 +16,24 @@ const App = () => {
     const fetchDocument = async (url) => {
       const response = await request(url);
 
-      setQuery(url);
+      setBaseUrl(url);
       setResourceLinks(Link.parseLinks(response.links));
     };
 
-    fetchDocument(url);
+    fetchDocument(baseUrl);
   };
 
-  const updateDocument = (url) => {
+  const updateDocument = (toUrl) => {
 
-    const fetchDocument = async (url) => {
+    const updateBaseUrl = async (url) => {
       const response = await request(url);
 
-      setQuery(url);
+      setBaseUrl(url);
       setLinks(Link.parseLinks(response.links));
       setResult(response);
     };
 
-    fetchDocument(url);
+    updateBaseUrl(toUrl);
   };
 
   useEffect(() => {
@@ -42,10 +42,10 @@ const App = () => {
 
   return (
     <div className="container">
-      <header className="location">
-        <div className="pane query">
-          <h2>Query</h2>
-          <div className="scrollable scrollable_x query-url">{query}</div>
+      <header className="location-header">
+        <div className="pane location">
+          <h2>Location</h2>
+          <div className="scrollable scrollable_x location-url">{baseUrl}</div>
         </div>
       </header>
       <nav className="pane resourceLinks">
