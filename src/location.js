@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { extract, toggleSetEntry } from "./utils";
+import { extract, toggleSetEntry, clearSetEntry } from "./utils";
 
 import { request } from './lib/request';
 
@@ -39,6 +39,7 @@ const Location = ({homeUrl, children}) => {
     // Set the location state to a parsed url and a compiled url.
     const [ parsedUrl, setParsedUrl ] = useState(parseJsonApiUrl(homeUrl));
     const [ locationUrl, setLocationUrl ] = useState(compileJsonApiUrl(parsedUrl));
+    const [ resources, setResources ] = useState(new Set());
     const [ document, setDocument ] = useState({});
 
     // Takes a single query parameter and updates the parsed url.
@@ -52,13 +53,14 @@ const Location = ({homeUrl, children}) => {
 
     // Extract and surface useful url components in the location context as
     // readable values.
-    const {filter, fields, include, sort} = parsedUrl.query;;
+    const {filter, fields, include, sort} = parsedUrl.query;
     const {fragment} = parsedUrl;
 
     return <LocationContext.Provider
         value={{
             parsedUrl,
             locationUrl,
+            resources,
             document,
             filter,
             fields,
@@ -66,7 +68,10 @@ const Location = ({homeUrl, children}) => {
             sort,
             fragment,
             onEntryPoint: extract(document, 'links.self.href') === homeUrl,
-            setUrl: (newLocationUrl) => setParsedUrl(parseJsonApiUrl(newLocationUrl)),
+            setUrl: (newLocation) => {
+              setParsedUrl(parseJsonApiUrl(newLocation.href));
+              setResources(clearSetEntry(resources, newLocation.type));
+            },
             setFilter: (newParam) => updateQuery({filter: newParam}),
             toggleField: (type, field) => {
               const fieldSet = extract(parsedUrl, `query.fields.${type}`, new Set());

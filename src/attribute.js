@@ -3,7 +3,7 @@ import { LocationContext } from './location';
 import { hasSetEntry } from './utils';
 
 const Attribute = ({ attribute, type }) => {
-  const { fields, toggleField } = useContext(LocationContext);
+  const { resources, fields, toggleField } = useContext(LocationContext);
 
   return (
     <div className="attribute">
@@ -13,6 +13,7 @@ const Attribute = ({ attribute, type }) => {
           fields.hasOwnProperty(type) && hasSetEntry(fields[type], attribute.name)
         }
         onChange={() => toggleField(type, attribute.name)}
+        disabled={!resources.has(type)}
       />
       {attribute.name}
     </div>
