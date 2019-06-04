@@ -9,7 +9,7 @@ const Resource = ({ links }) => {
   const {
     document,
     fields,
-    setInclude,
+    include,
     toggleField,
     clearFieldSet,
     setSort
@@ -30,7 +30,7 @@ const Resource = ({ links }) => {
         <div id="includes" className="pane">
           <h2>Includes</h2>
           <ul className="scrollable scrollable_y">
-            <li><button onClick={() => setInclude(['uid'])} /></li>
+            {include.map((type, index) => <li key={`${type}-${index}`}>{type}</li>)}
           </ul>
         </div>
         <div id="fields" className="pane">

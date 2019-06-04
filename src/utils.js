@@ -19,3 +19,18 @@ export function toggleSetEntry(set, entry) {
         set.add(entry);
     }
 }
+
+export function toggleArrayEntry(list, entry) {
+    // copy list to avoid mutation.
+    let newList = [...list];
+    const index = newList.indexOf(entry);
+
+    if (index > -1) {
+        newList.splice(index, 1);
+    }
+    else {
+        newList.push(entry);
+    }
+
+    return newList;
+}

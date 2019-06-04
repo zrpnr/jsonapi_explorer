@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { extract, toggleSetEntry, clearSetEntry } from "./utils";
+import { extract, toggleArrayEntry, toggleSetEntry, clearSetEntry } from "./utils";
 
 import { request } from './lib/request';
 
@@ -84,7 +84,17 @@ const Location = ({homeUrl, children}) => {
               delete(newFieldsParam[type]);
               updateQuery({fields: newFieldsParam})
             },
-            setInclude: (newParam) => updateQuery({include: newParam}),
+            toggleInclude: (newParam) => {
+              const includes = extract(parsedUrl, `query.include`, include);
+              const newIncludes = toggleArrayEntry(includes, newParam);
+              updateQuery({ include: newIncludes });
+              toggleSetEntry(resources, newParam);
+            },
+            clearInclude: (type) => {
+              const newFieldsParam = parsedUrl.query.fields;
+              delete(newFieldsParam[type]);
+              updateQuery({fields: newFieldsParam})
+            },
             setSort: (newParam) => updateQuery({sort: newParam}),
             setFragment: (fragment) => setParsedUrl(Object.assign({}, parsedUrl, {fragment})),
         }}>
