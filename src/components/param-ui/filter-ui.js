@@ -9,12 +9,12 @@ import { LocationContext } from '../../contexts/location';
 
 const FilterUI = () => {
   const { filter, setFilter } = useContext(LocationContext);
-  const { filters } = useFilter(filter);
+  const { conditions } = useFilter(filter);
 
   return (
     <ParamUI name="filter" title="Filter">
       <FilterLoader />
-      {filters.map(
+      {conditions.map(
         (fObj, index) =>
           fObj.expanded[fObj.id].condition && (
             <div

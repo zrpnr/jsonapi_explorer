@@ -103,8 +103,6 @@ const FilterLoaderForm = ({ visible, hide }) => {
 
   const [values, setValues] = useState(new Set([]));
   const { paths, load } = useSchemaLoader([]);
-  const { filter } = useContext(LocationContext);
-  const { filters } = useFilter(filter);
 
   const addAttribute = attribute => {
     const current = new Set([...values]);
@@ -140,9 +138,7 @@ const FilterLoaderForm = ({ visible, hide }) => {
           </button>
         </div>
       </form>
-      {filters.map((filter, index) => (
-        <FilterWidget key={index} filter={filter} />
-      ))}
+      <FilterWidget />
     </div>
   );
 
