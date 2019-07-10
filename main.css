@@ -388,17 +388,17 @@ button.param_ui__button--icon {
   height: 16px;
   padding: 0; }
 
-.filter_widget,
-.filter_widget__action {
+.form_widget,
+.form_widget__action {
   display: flex; }
 
-.filter_widget {
+.form_widget {
   border: 0.0625rem solid #8e929c;
   border: var(--size-input-border) solid var(--color-input-border);
   margin: .5rem 0;
   padding: .5rem;
   align-items: center; }
-  .filter_widget > * {
+  .form_widget > * {
     margin: 0 .2rem; }
 
 .results__row {
