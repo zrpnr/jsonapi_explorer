@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-const LocationBar = ({ onNewUrl, value = '' }) => {
+const LocationBar = ({ onNewUrl, value = '', exampleURL = false }) => {
   const [inputUrl, setInputUrl] = useState(value);
 
   useEffect(() => setInputUrl(value), [value]);
+
+  const setSampleLocation = e => {
+    e.preventDefault();
+    onNewUrl(exampleURL);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -11,15 +16,31 @@ const LocationBar = ({ onNewUrl, value = '' }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="location">
-      <input
-        type="url"
-        className="query-url"
-        placeholder="Enter a JSON:API server URL to begin exploring... e.g. https://example.com/api"
-        value={inputUrl}
-        onChange={e => setInputUrl(e.target.value)}
-      />
-    </form>
+    <div className="location">
+      <form className="location__form" onSubmit={handleSubmit}>
+        <input
+          type="url"
+          className="query-url"
+          placeholder="Enter an HTTPS URL to explore your JSON:API server."
+          value={inputUrl}
+          onChange={e => setInputUrl(e.target.value)}
+        />
+      </form>
+      <div
+        className={`location__suggestion location__suggestion--${
+          inputUrl === '' && exampleURL ? 'active' : 'hidden'
+        }`}
+      >
+        <span>or try an </span>
+        <button
+          className="location__suggestion_button"
+          onClick={setSampleLocation}
+          disabled={inputUrl !== ''}
+        >
+          example
+        </button>
+      </div>
+    </div>
   );
 };
 
